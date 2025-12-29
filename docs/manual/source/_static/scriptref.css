@@ -1,0 +1,28 @@
+/* Script samples */
+div.body .highlight
+{
+	tab-size: 4;
+
+	a
+	{
+		color: inherit;
+		text-decoration: inherit;
+	}
+
+	a:hover
+	{
+		text-decoration: underline;
+	}
+}
+
+/* Actor inheritance tree */
+p:has(+ ul.inheritance-tree)
+{
+	margin-bottom: 0;
+}
+
+ul.inheritance-tree
+{
+	list-style-type: "→";
+	margin-top: 0;
+}
