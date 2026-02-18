@@ -101,6 +101,7 @@ ControlScheme controlScheme[] =
 	{ bt_automap,			"Automap",		-1,			-1,				-1, CS_AxisDigital, 0 },
 	{ bt_showstatusbar,		"Show Status",	-1,			sc_Tab,			-1,	CS_AxisDigital, 0 },
 	{ bt_pause,				"Pause",		-1,			sc_Pause,		-1, CS_AxisDigital, 0 },
+	{ bt_esc,				"Main Menu",	-1,			-1,				-1, CS_AxisDigital, 0 },
 
 	// End of List
 	{ bt_nobutton,			NULL, -1, -1, -1, CS_AxisDigital, 0 }
