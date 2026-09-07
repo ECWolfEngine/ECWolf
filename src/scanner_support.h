@@ -3,7 +3,7 @@
 
 // Scanner support file to allow easy translation between frameworks
 
-#if 0
+#ifdef SCANNER_USE_STD_STRING
 // STD C++ Library
 
 #include <string>
@@ -21,7 +21,7 @@ inline SCString_Index SCString_Len(const SCString &obj) { return obj.length(); }
 inline SCString_Index SCString_NPos(const SCString &obj) { return std::string::npos; }
 inline void SCString_Unescape(SCString &obj, SCString_Index pos, const char chr) { obj.replace(pos, 2, 1, chr); }
 
-#elif 1
+#else
 // ZDoom Library
 
 #include "zstring.h"

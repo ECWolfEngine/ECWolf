@@ -34,7 +34,9 @@
 
 #include "scanner_support.h"
 #include "scanner.h"
+#ifndef SCANNER_STANDALONE
 #include "w_wad.h"
+#endif
 
 static void DefaultMessageHandler(Scanner::MessageLevel, const char* error, va_list list)
 {
@@ -101,6 +103,7 @@ static const char* const TokenNames[TK_NumSpecialTokens] =
 	"Ellipsis"
 };
 
+#ifndef SCANNER_STANDALONE
 Scanner::Scanner(int lumpNum)
 : line(1), lineStart(0), logicalPosition(0), scanPos(0), needNext(true)
 {
@@ -117,6 +120,7 @@ Scanner::Scanner(int lumpNum)
 	state.tokenLine = 0;
 	state.tokenLinePosition = 0;
 }
+#endif
 
 Scanner::Scanner(const char* data, size_t length)
 : line(1), lineStart(0), logicalPosition(0), scanPos(0), needNext(true)
@@ -716,8 +720,6 @@ int Scanner::SkipLine()
 			ret = logicalPosition++; // Return the first newline character we see.
 			if(nextChar == '\r')
 				logicalPosition++;
-			IncrementLine();
-			CheckForWhitespace();
 			break;
 		}
 		logicalPosition++;
