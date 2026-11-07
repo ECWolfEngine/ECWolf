@@ -805,7 +805,22 @@ vertentry:
 					DetermineHitDir(true);
 					int32_t yintbuf=yintercept+(ystep>>1);
 					if((yintbuf>>16)!=(yintercept>>16))
+					{
+						// Ray leaves through the side of the door tile. At exact corners
+						// the horizontal intercept can be in the previous column.
+						const short siderow = (short)((yintercept>>16)+ytilestep);
+						if(yspot[0] != xtile || ytile != siderow)
+						{
+							const fixed frac = ytilestep == -1 ? (yintercept&(FRACUNIT-1)) : FRACUNIT-(yintercept&(FRACUNIT-1));
+							xintercept = (xtilestep == -1 ? (xtile+1)<<TILESHIFT : xtile<<TILESHIFT) + FixedMul(xstep, frac);
+							if((xintercept>>TILESHIFT) != xtile)
+								xintercept = xtilestep == -1 ? ((xtile+1)<<TILESHIFT)-1 : xtile<<TILESHIFT;
+							ytile = siderow;
+							yspot[0] = xtile;
+							yspot[1] = ytile;
+						}
 						goto passvert;
+					}
 					if(CheckSlidePass(tilehit->slideStyle, (word)yintbuf, tilehit->slideAmount[hitdir]))
 						goto passvert;
 					yintercept=yintbuf;
@@ -972,7 +987,21 @@ horizentry:
 					DetermineHitDir(false);
 					int32_t xintbuf=xintercept+(xstep>>1);
 					if((xintbuf>>16)!=(xintercept>>16))
+					{
+						// Same as above for horizontal doors
+						const short sidecol = (short)((xintercept>>16)+xtilestep);
+						if(xspot[1] != ytile || xtile != sidecol)
+						{
+							const fixed frac = xtilestep == -1 ? (xintercept&(FRACUNIT-1)) : FRACUNIT-(xintercept&(FRACUNIT-1));
+							yintercept = (ytilestep == -1 ? (ytile+1)<<TILESHIFT : ytile<<TILESHIFT) + FixedMul(ystep, frac);
+							if((yintercept>>TILESHIFT) != ytile)
+								yintercept = ytilestep == -1 ? ((ytile+1)<<TILESHIFT)-1 : ytile<<TILESHIFT;
+							xtile = sidecol;
+							xspot[0] = xtile;
+							xspot[1] = ytile;
+						}
 						goto passhoriz;
+					}
 					if(CheckSlidePass(tilehit->slideStyle, (word)xintbuf, tilehit->slideAmount[hitdir]))
 						goto passhoriz;
 					xintercept=xintbuf;
